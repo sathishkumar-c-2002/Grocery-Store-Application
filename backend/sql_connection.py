@@ -4,7 +4,6 @@ import mysql.connector
 def get_sql_connection():
     global __cnx
     if __cnx==None:
-        cnx = mysql.connector.connect(user='root',password='sathish',host='127.0.0.1',database='grocery_store')
+        __cnx = mysql.connector.connect(user='root',password='sathish',host='127.0.0.1',database='grocery_store')
     
-    return cnx
-    
+    return __cnx
