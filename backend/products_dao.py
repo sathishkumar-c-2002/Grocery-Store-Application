@@ -1,20 +1,36 @@
 "DAO =  Data Access Object"
 import mysql.connector
 
-cnx = mysql.connector.connect(user='root',password='sathish',host='127.0.0.1',database='grocery_store')
+def get_all_products():
+    cnx = mysql.connector.connect(user='root',password='sathish',host='127.0.0.1',database='grocery_store')
 
-cursor =  cnx.cursor()
+    cursor =  cnx.cursor()
 
-query = "SELECT * FROM grocery_store.products"
-
-cursor.execute(query)
-
-for (product_id,name,uom_id,price_per_unit) in cursor:
-    print(product_id,name,uom_id,price_per_unit)
+    query = ("SELECT products.product_id,products.name,products.uom_id,products.price_per_unit,uom.uom_name FROM products inner join uom on products.uom_id=uom.uom_id")
 
 
+    cursor.execute(query)
+    
+    response = []
+
+    for (product_id,name,uom_id,price_per_unit, uom_name) in cursor:
+        response.append(
+            {
+               'product_id':product_id,
+               'name':name,
+               'uom_id':uom_id,
+               'price_per_unit':price_per_unit,
+               'uom_name':uom_name                   
+            }
+        )
+        print()
+                
+    cnx.close()
+    
+    return response
 
 
 
 
-cnx.close()
+if __name__ == '__main__':
+    print(get_all_products())
